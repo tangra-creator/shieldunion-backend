@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const proposals = []; // 🧠 In-memory proposal storage
 const proposalRoutes = require('./routes/proposals');
 
 const app = express();
@@ -27,12 +28,10 @@ app.post("/api/case", (req, res) => {
     return res.status(400).json({ message: "Missing title or description." });
   }
 
-  // ✅ Tier 1 Detection
+  // ✅ Tier 1 Detection + Auto Proposal
   if (riskLevel === "life-risk") {
     console.log("🚨 Tier 1 case received — auto-routing to DAO...");
 
-    // ⛓️ TODO: Trigger DAO logic here
-    // For now, simulate it:
     const proposal = {
       id: Date.now(),
       title: `[TIER 1] ${title}`,
@@ -42,11 +41,10 @@ app.post("/api/case", (req, res) => {
       submittedAt: new Date(),
     };
 
-    // Store to memory or forward to DAO list (you can later store to DB)
+    proposals.push(proposal); // ← this saves to in-memory DAO list
     console.log("🗳️ Auto-generated DAO Proposal:", proposal);
   }
 
-  // Respond
   res.status(200).json({ message: "Case submitted successfully." });
 });
 
