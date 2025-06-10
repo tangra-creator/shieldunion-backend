@@ -22,24 +22,24 @@ app.post("/api/register", (req, res) => {
 app.post("/api/case", (req, res) => {
   const { title, description, riskLevel } = req.body;
 
-  if (!title || !description) {
-    return res.status(400).json({ message: "Missing title or description." });
-  }
+  const proposal = {
+    id: Date.now(), // Unique ID
+    title,
+    description,
+    riskLevel,
+    status: "Pending",
+    votes: 0,
+    submittedAt: new Date().toISOString(),
+  };
 
-  if (riskLevel === "life-risk") {
-    const proposal = {
-      id: Date.now(),
-      title: `[TIER 1] ${title}`,
-      description,
-      votes: 0,
-      status: "pending",
-      submittedAt: new Date(),
-    };
-
-    proposals.push(proposal); // Save to in-memory proposals
-    console.log("🧠 Tier 1 Proposal added:", proposal);
-  }
+  proposals.push(proposal); // Save to in-memory DAO list
+  console.log("🧠 New DAO Proposal added:", proposal);
 
   res.status(200).json({ message: "Case submitted successfully." });
 });
+
+app.get("/api/proposals", (req, res) => {
+  res.status(200).json(proposals);
+});
+
 
