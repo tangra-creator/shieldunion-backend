@@ -26,10 +26,7 @@ app.post("/api/case", (req, res) => {
     return res.status(400).json({ message: "Missing title or description." });
   }
 
-  // ✅ Tier 1 Detection + Auto Proposal
   if (riskLevel === "life-risk") {
-    console.log("🚨 Tier 1 case received — auto-routing to DAO...");
-
     const proposal = {
       id: Date.now(),
       title: `[TIER 1] ${title}`,
@@ -39,13 +36,10 @@ app.post("/api/case", (req, res) => {
       submittedAt: new Date(),
     };
 
-    proposals.push(proposal); // ← this saves to in-memory DAO list
+    proposals.push(proposal); // 🧠 Add to in-memory array
     console.log("🗳️ Auto-generated DAO Proposal:", proposal);
   }
 
   res.status(200).json({ message: "Case submitted successfully." });
-});
-app.get("/api/proposals", (req, res) => {
-  res.status(200).json(proposals);
 });
 
