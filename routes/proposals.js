@@ -5,18 +5,16 @@ const router = express.Router();
 router.post('/', (req, res) => {
   const { title, description, country } = req.body;
 
+  // Validate required fields
   if (!title || !description || !country) {
-    return res.status(400).json({ error: 'Missing required fields.' });
+    return res.status(400).json({ message: 'Missing fields' });
   }
 
-  console.log('✅ Proposal received:');
-  console.log('Title:', title);
-  console.log('Description:', description);
-  console.log('Country:', country);
+  // Simulate storing the proposal (e.g., database save could go here)
+  console.log('✅ Proposal received:', { title, description, country });
 
-  // In real use: Save to DB here
-
-  res.status(200).json({ message: 'Proposal submitted successfully.' });
+  // Respond success
+  return res.status(200).json({ message: 'Proposal submitted successfully' });
 });
 
 module.exports = router;
