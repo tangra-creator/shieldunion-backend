@@ -36,8 +36,8 @@ app.post("/api/case", (req, res) => {
       submittedAt: new Date(),
     };
 
-    proposals.push(proposal); // 🧠 Add to in-memory array
-    console.log("🗳️ Auto-generated DAO Proposal:", proposal);
+    proposals.push(proposal); // Save to in-memory proposals
+    console.log("🧠 Tier 1 Proposal added:", proposal);
   }
 
   res.status(200).json({ message: "Case submitted successfully." });
