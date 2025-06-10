@@ -15,3 +15,8 @@ app.use('/api/proposals', proposalRoutes);
 app.listen(PORT, () => {
   console.log(`✅ Backend running at http://localhost:${PORT}`);
 });
+app.post("/api/register", (req, res) => {
+  const { name, email, password } = req.body;
+  // TODO: Validate + Save user
+  return res.status(200).json({ message: "Registered successfully" });
+});
