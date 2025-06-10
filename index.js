@@ -24,17 +24,29 @@ app.post("/api/case", (req, res) => {
   const { title, description, riskLevel } = req.body;
 
   if (!title || !description) {
-    return res.status(400).json({ message: "Missing case title or description." });
+    return res.status(400).json({ message: "Missing title or description." });
   }
 
-  // Example Tier 1 detection
+  // ✅ Tier 1 Detection
   if (riskLevel === "life-risk") {
-    console.log("🚨 Tier 1 case received — routing to DAO for immediate review");
-    // TODO: Trigger DAO flag logic here
+    console.log("🚨 Tier 1 case received — auto-routing to DAO...");
+
+    // ⛓️ TODO: Trigger DAO logic here
+    // For now, simulate it:
+    const proposal = {
+      id: Date.now(),
+      title: `[TIER 1] ${title}`,
+      description,
+      votes: 0,
+      status: "pending",
+      submittedAt: new Date(),
+    };
+
+    // Store to memory or forward to DAO list (you can later store to DB)
+    console.log("🗳️ Auto-generated DAO Proposal:", proposal);
   }
 
-  // TODO: Save case to database or memory (for now just echoing)
-  console.log("📝 Case received:", { title, description, riskLevel });
-
-  res.status(200).json({ message: "Case received successfully." });
+  // Respond
+  res.status(200).json({ message: "Case submitted successfully." });
 });
+
