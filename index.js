@@ -46,3 +46,11 @@ app.post("/api/register", (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Backend running at http://localhost:${PORT}`);
 });
+let registrations = []; // If not using DB yet
+
+
+
+app.get('/api/register', (req, res) => {
+  res.status(200).json(registrations);
+});
+
