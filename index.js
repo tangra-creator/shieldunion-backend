@@ -10,6 +10,12 @@ app.use(bodyParser.json());
 
 // 🧠 In-memory proposal store
 let proposals = [];
+// ✅ Get Proposals Route
+app.get("/api/proposals", (req, res) => {
+  console.log("GET /api/proposals called");
+  res.json(proposals);
+});
+
 
 // ✅ Register Route
 app.post("/api/register", (req, res) => {
