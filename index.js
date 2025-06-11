@@ -13,7 +13,9 @@ let proposals = [];
 
 // ✅ Register Route
 app.post("/api/register", (req, res) => {
-  const { name, email, password } = req.body;
+  const { fullName, email, password, incomeTier } = req.body;
+console.log("REGISTER BODY:", req.body); // helpful debug line
+
   // TODO: Add validation
   return res.status(200).json({ message: "Registered successfully" });
 });
