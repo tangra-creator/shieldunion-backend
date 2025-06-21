@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const ChatMessage = require('../models/ChatMessage');
+const ChatMessage = require('../models/ChatMessage'); // your Mongoose model
 const { scanMessageForThreat } = require('../utils/chatThreatDetector');
 const Proposal = require('../models/Proposal');
 
-// ➕ Start Chat Session (optional endpoint)
+// Start chat session (optional)
 router.post('/start', (req, res) => {
   res.status(200).json({ message: 'Smart chat session ready.' });
 });
 
-// 💬 Send a message
+// Send message route
 router.post('/send', async (req, res) => {
   try {
     const { caseId, sender, message } = req.body;
@@ -18,52 +18,41 @@ router.post('/send', async (req, res) => {
       return res.status(400).json({ error: 'Missing fields.' });
     }
 
-    // Save chat to messages DB
+    // Save chat message
     const chat = new ChatMessage({ caseId, sender, message });
     await chat.save();
 
-    // 🧠 Check if message contains threat
+    // Threat detection
     const isThreat = scanMessageForThreat(message);
     if (isThreat) {
-      console.log(`🚨 Threat detected in message: "${message}"`);
-
-      // Create DAO proposal with chat log
+      // Create DAO proposal for threat
       const autoProposal = new Proposal({
         title: `🚨 Threat Detected in Case ${caseId}`,
-        description: `A potentially dangerous message was sent by ${sender} in case ${caseId}:\n\n"${message}"`,
+        description: `Threat detected from ${sender}:\n\n${message}`,
         urgency: 'critical',
         duration: 2,
         caseId,
         autoFlagged: true,
-        chatLog: [
-          {
-            sender,
-            message,
-            timestamp: new Date()
-          }
-        ],
+        chatLog: [{ sender, message, timestamp: new Date() }],
       });
-
       await autoProposal.save();
-      console.log(`✅ DAO proposal auto-submitted for Case ${caseId}`);
     }
 
     res.status(201).json({ success: true, chat });
-
   } catch (err) {
     console.error('Send message error:', err);
     res.status(500).json({ error: 'Failed to send message' });
   }
 });
 
-// 📥 Get all messages for a case
+// Get messages for a case
 router.get('/:caseId', async (req, res) => {
   try {
     const { caseId } = req.params;
     const messages = await ChatMessage.find({ caseId }).sort({ timestamp: 1 });
     res.json(messages);
   } catch (err) {
-    console.error('Get chat error:', err);
+    console.error('Get messages error:', err);
     res.status(500).json({ error: 'Failed to fetch messages' });
   }
 });

@@ -51,4 +51,15 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// GET /api/member/total — return total count of members
+router.get('/total', async (req, res) => {
+  try {
+    const total = await Member.countDocuments();
+    res.json({ total });
+  } catch (err) {
+    console.error('Failed to fetch total members:', err);
+    res.status(500).json({ error: 'Failed to fetch total members' });
+  }
+});
+
 module.exports = router;
