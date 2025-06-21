@@ -1,0 +1,28 @@
+{
+  "founder": "Tangra",
+  "founder_wallet": "0xB22f3f35Dcb16a1C2D7748a53D4e7c3f8143E043",
+  "earnings_percentage": 30,
+  "maximum_control": true,
+  "can_edit_percentage": true,
+  "edit_range": {
+    "min": 1,
+    "max": 51
+  },
+  "editable_by": [
+    "Tangra",
+    "Tangra's legal successors and bloodline"
+  ],
+  "enforcement_protection": {
+    "no_dao_override": true,
+    "no_ai_override": true,
+    "no_user_or_technology_can_block": true
+  },
+  "reclaim_trigger": {
+    "enabled": true,
+    "trigger_type": "member_count",
+    "threshold": 1000,
+    "time_limit_days": 365,
+    "action_on_failure": "Full control returns to founder; platform may be sold, paused, or restructured."
+  },
+  "note": "Tangra and his successors have unstoppable access to change the founder earnings percentage at any time, up to 51%, without DAO, smart engine, or human approval. No entity, system, or person can block, restrict, or delay this right. If ShieldUnion fails to reach 1,000 members in 1 year, full legal control returns to Tangra."
+}

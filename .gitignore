@@ -1,0 +1,9 @@
+# Ignore node and env
+node_modules/
+.env
+
+# Ignore OS & editor files
+.DS_Store
+.vscode/
+dist/
+*.log
